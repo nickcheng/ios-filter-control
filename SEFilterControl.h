@@ -15,15 +15,15 @@
 #import <UIKit/UIKit.h>
 #import "SEFilterKnob.h"
 
-@interface SEFilterControl : UIControl{
+@interface SEFilterControl : UIControl
 
-}
--(id) initWithFrame:(CGRect) frame Titles:(NSArray *) titles;
--(void) setSelectedIndex:(int)index;
--(void) setTitlesColor:(UIColor *)color;
--(void) setTitlesFont:(UIFont *)font;
--(void) setHandlerColor:(UIColor *)color;
+- (id)initWithFrame:(CGRect)frame andTitles:(NSArray *)titles;
+- (void)setSelectedIndex:(int)index;
+- (void)setTitlesColor:(UIColor *)color;
+- (void)setTitlesFont:(UIFont *)font;
+- (void)setHandlerColor:(UIColor *)color;
 
-@property(nonatomic, retain) UIColor *progressColor;
+@property(nonatomic, strong) UIColor *progressColor;
 @property(nonatomic, readonly) int SelectedIndex;
+
 @end
