@@ -1,6 +1,8 @@
-= What's added =
+# What's added #
 
 * ARC only
+
+----
 
 iOS Filter Control
 ==================
