@@ -34,11 +34,9 @@
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
-  CGColorRef shadowColor = [UIColor colorWithRed:0 green:0
-                                            blue:0 alpha:.4f].CGColor;
-  
+  //
+  CGColorRef shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.4f].CGColor;
   CGContextRef context = UIGraphicsGetCurrentContext();
-  
   
   //Draw Main Cirlce
   
@@ -46,7 +44,7 @@
   
   CGContextSetShadowWithColor(context, CGSizeMake(0, 7), 10.f, shadowColor);
   
-  CGContextSetStrokeColorWithColor(context, handlerColor.CGColor);
+  CGContextSetStrokeColorWithColor(context, self.handlerColor.CGColor);
   CGContextSetLineWidth(context, 11);
   CGContextStrokeEllipseInRect(context, CGRectMake(6.5f, 6, 22, 22));
   
