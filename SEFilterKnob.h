@@ -16,4 +16,5 @@
 @interface SEFilterKnob : UIButton
 
 @property (nonatomic, strong) UIColor *handlerColor;
+
 @end

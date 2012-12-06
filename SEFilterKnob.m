@@ -14,7 +14,8 @@
 #import "SEFilterKnob.h"
 
 @implementation SEFilterKnob
-@synthesize handlerColor;
+
+@synthesize handlerColor = _handlerColor;
 
 - (id)initWithFrame:(CGRect)frame {
   self = [super initWithFrame:frame];
@@ -26,7 +27,7 @@
 }
 
 - (void)setHandlerColor:(UIColor *)hc {
-  handlerColor = hc;
+  _handlerColor = hc;
   [self setNeedsDisplay];
 }
 
