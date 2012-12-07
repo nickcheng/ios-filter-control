@@ -184,11 +184,14 @@
   //
   CGContextRef context = UIGraphicsGetCurrentContext();
   
-  CGColorRef trackColor = [UIColor colorWithRed:73/255.f green:198/255.f blue:215/255.f alpha:1].CGColor;
-  CGColorRef shadowColor = [UIColor colorWithRed:13/255.f green:166/255.f blue:187/255.f alpha:1].CGColor;
+  UIColor *__autoreleasing trackColor = [UIColor colorWithRed:73/255.f green:198/255.f blue:215/255.f alpha:1];
+  UIColor *__autoreleasing shadowColor = [UIColor colorWithRed:13/255.f green:166/255.f blue:187/255.f alpha:1];
+  CGColorRef trackColorRef = trackColor.CGColor;
+  CGColorRef shadowColorRef = shadowColor.CGColor;
   
   // Draw Top Shadow
-  CGContextSetStrokeColorWithColor(context, shadowColor);
+  CGContextSaveGState(context);
+  CGContextSetStrokeColorWithColor(context, shadowColorRef);
   CGContextSetLineWidth(context, 2.f);
   CGContextBeginPath(context);
   CGContextMoveToPoint(context, LEFT_OFFSET, 16);
@@ -203,12 +206,12 @@
     centerPoint = [self getCenterPointForIndex:i];
     
     // Draw Selection Circles Shadow
-    CGContextSetFillColorWithColor(context, shadowColor);
+    CGContextSetFillColorWithColor(context, shadowColorRef);
     CGContextFillEllipseInRect(context, CGRectMake(centerPoint.x - 12.5f, 8, 20, 20));
   }
   
   // Fill Main Path
-  CGContextSetFillColorWithColor(context, trackColor);
+  CGContextSetFillColorWithColor(context, trackColorRef);
   CGContextFillRect(context, CGRectMake(LEFT_OFFSET, 17, rect.size.width - RIGHT_OFFSET - LEFT_OFFSET, 10));
   CGContextSaveGState(context);
 
@@ -218,10 +221,10 @@
     centerPoint = [self getCenterPointForIndex:i];
 
     // Draw Selection Circles
-    CGContextSetFillColorWithColor(context, trackColor);
+    CGContextSetFillColorWithColor(context, trackColorRef);
     CGContextFillEllipseInRect(context, CGRectMake(centerPoint.x - 12.5f, 10, 20, 20));
     //
-    CGContextSetFillColorWithColor(context, shadowColor);
+    CGContextSetFillColorWithColor(context, shadowColorRef);
     CGContextFillEllipseInRect(context, CGRectMake(centerPoint.x - 7.5f, 16, 10, 10));
     //
     CGContextSetFillColorWithColor(context, [UIColor whiteColor].CGColor);
