@@ -44,15 +44,15 @@
     [self setBackgroundColor:[UIColor clearColor]];
     titlesArr = [[NSArray alloc] initWithArray:titles];
     
-    [self setProgressColor:[UIColor colorWithRed:103/255.f green:173/255.f blue:202/255.f alpha:1]];
+    [self setProgressColor:[UIColor colorWithRed:103 / 255.f green:173 / 255.f blue:202 / 255.f alpha:1]];
     
     UITapGestureRecognizer *gest = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(ItemSelected:)];
     [self addGestureRecognizer:gest];
     
     handler = [SEFilterKnob buttonWithType:UIButtonTypeCustom];
-    [handler setFrame:CGRectMake(LEFT_OFFSET, 10, 35, 55)];
+    [handler setFrame:CGRectMake(LEFT_OFFSET, 10, 36, 38)];
     [handler setAdjustsImageWhenHighlighted:NO];
-    [handler setCenter:CGPointMake(handler.center.x-(handler.frame.size.width/2.f), self.frame.size.height-19.5f)];
+    [handler setCenter:CGPointMake(handler.center.x - (handler.frame.size.width / 2.f), 19)];
     [handler addTarget:self action:@selector(TouchDown:withEvent:) forControlEvents:UIControlEventTouchDown];
     [handler addTarget:self action:@selector(TouchUp:) forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchUpOutside];
     [handler addTarget:self action:@selector(TouchMove:withEvent:) forControlEvents: UIControlEventTouchDragOutside | UIControlEventTouchDragInside];
@@ -62,27 +62,26 @@
     NSString *title;
     UILabel *lbl;
     
-    oneSlotSize = 1.f*(self.frame.size.width-LEFT_OFFSET-RIGHT_OFFSET-1)/(titlesArr.count-1);
+    oneSlotSize = 1.f * (self.frame.size.width - LEFT_OFFSET - RIGHT_OFFSET - 1) / (titlesArr.count - 1);
     for (i = 0; i < titlesArr.count; i++) {
       title = [titlesArr objectAtIndex:i];
       lbl = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, oneSlotSize, 25)];
       [lbl setText:title];
       [lbl setFont:TITLE_FONT];
-      [lbl setShadowColor:TITLE_SHADOW_COLOR];
       [lbl setTextColor:TITLE_COLOR];
       [lbl setLineBreakMode:UILineBreakModeMiddleTruncation];
       [lbl setAdjustsFontSizeToFitWidth:YES];
       [lbl setMinimumFontSize:8];
       [lbl setTextAlignment:UITextAlignmentCenter];
-      [lbl setShadowOffset:CGSizeMake(0, 1)];
       [lbl setBackgroundColor:[UIColor clearColor]];
-      [lbl setTag:i+50];
+      [lbl setTag:i + 50];
       
       if (i) {
         [lbl setAlpha:TITLE_FADE_ALPHA];
       }
       
-      [lbl setCenter:[self getCenterPointForIndex:i]];
+//      [lbl setCenter:[self getCenterPointForIndex:i]];
+      [lbl setCenter:CGPointMake([self getCenterPointForIndex:i].x, 49)];
       
       
       [self addSubview:lbl];
@@ -168,108 +167,65 @@
 #pragma mark Private Methods
 
 - (CGPoint)getCenterPointForIndex:(int)i {
-  return CGPointMake((i/(float)(titlesArr.count-1)) * (self.frame.size.width-RIGHT_OFFSET-LEFT_OFFSET) + LEFT_OFFSET, i==0?self.frame.size.height-55-TITLE_SELECTED_DISTANCE:self.frame.size.height-55);
+  return CGPointMake((i / (float)(titlesArr.count - 1)) * (self.frame.size.width - RIGHT_OFFSET - LEFT_OFFSET) + LEFT_OFFSET,
+                     i == 0 ? self.frame.size.height - 55 - TITLE_SELECTED_DISTANCE:self.frame.size.height - 55);
 }
 
 - (CGPoint)fixFinalPoint:(CGPoint)pnt {
-  if (pnt.x < LEFT_OFFSET-(handler.frame.size.width/2.f)) {
-    pnt.x = LEFT_OFFSET-(handler.frame.size.width/2.f);
-  } else if (pnt.x+(handler.frame.size.width/2.f) > self.frame.size.width-RIGHT_OFFSET) {
-    pnt.x = self.frame.size.width-RIGHT_OFFSET- (handler.frame.size.width/2.f);
+  if (pnt.x < LEFT_OFFSET - (handler.frame.size.width / 2.f)) {
+    pnt.x = LEFT_OFFSET - (handler.frame.size.width / 2.f);
+  } else if (pnt.x + (handler.frame.size.width / 2.f) > self.frame.size.width - RIGHT_OFFSET) {
+    pnt.x = self.frame.size.width - RIGHT_OFFSET - (handler.frame.size.width / 2.f);
   }
   return pnt;
 }
 
 - (void)drawRect:(CGRect)rect {
+  //
   CGContextRef context = UIGraphicsGetCurrentContext();
   
-  CGColorRef shadowColor = [UIColor colorWithRed:0 green:0
-                                            blue:0 alpha:.9f].CGColor;
+  CGColorRef trackColor = [UIColor colorWithRed:73/255.f green:198/255.f blue:215/255.f alpha:1].CGColor;
+  CGColorRef shadowColor = [UIColor colorWithRed:13/255.f green:166/255.f blue:187/255.f alpha:1].CGColor;
   
-  
-  //Fill Main Path
-  
-  CGContextSetFillColorWithColor(context, self.progressColor.CGColor);
-  
-  CGContextFillRect(context, CGRectMake(LEFT_OFFSET, rect.size.height-35, rect.size.width-RIGHT_OFFSET-LEFT_OFFSET, 10));
-  
-  CGContextSaveGState(context);
-  
-  //Draw Black Top Shadow
-  
-  CGContextSetShadowWithColor(context, CGSizeMake(0, 1.f), 2.f, shadowColor);
-  
-  CGContextSetStrokeColorWithColor(context, [UIColor colorWithRed:0 green:0
-                                                             blue:0 alpha:.6f].CGColor);
-  CGContextSetLineWidth(context, .5f);
+  // Draw Top Shadow
+  CGContextSetStrokeColorWithColor(context, shadowColor);
+  CGContextSetLineWidth(context, 2.f);
   CGContextBeginPath(context);
-  CGContextMoveToPoint(context, LEFT_OFFSET, rect.size.height-35);
-  CGContextAddLineToPoint(context, rect.size.width-RIGHT_OFFSET, rect.size.height-35);
+  CGContextMoveToPoint(context, LEFT_OFFSET, 16);
+  CGContextAddLineToPoint(context, rect.size.width - RIGHT_OFFSET, 16);
   CGContextStrokePath(context);
-  
-  CGContextRestoreGState(context);
-  
   CGContextSaveGState(context);
-  
-  //Draw White Bottom Shadow
-  
-  CGContextSetStrokeColorWithColor(context, [UIColor colorWithRed:1 green:1
-                                                             blue:1 alpha:1.f].CGColor);
-  CGContextSetLineWidth(context, .4f);
-  CGContextBeginPath(context);
-  CGContextMoveToPoint(context, LEFT_OFFSET, rect.size.height-25);
-  CGContextAddLineToPoint(context, rect.size.width-RIGHT_OFFSET, rect.size.height-25);
-  CGContextStrokePath(context);
-  
-  CGContextRestoreGState(context);
-  
-  
+
+  //
   CGPoint centerPoint;
-  int i;
-  for (i = 0; i < titlesArr.count; i++) {
+  for (int i = 0; i < titlesArr.count; i++) {
+    //
     centerPoint = [self getCenterPointForIndex:i];
     
-    //Draw Selection Circles
-    
-    CGContextSetFillColorWithColor(context, self.progressColor.CGColor);
-    
-    CGContextFillEllipseInRect(context, CGRectMake(centerPoint.x-15, rect.size.height-42.5f, 25, 25));
-    
-    //Draw top Gradient
-    
-    CGFloat colors[12] =   {0, 0, 0, 1,
-      0, 0, 0, 0,
-      0, 0, 0, 0};
-    CGColorSpaceRef baseSpace = CGColorSpaceCreateDeviceRGB();
-    CGGradientRef gradient = CGGradientCreateWithColorComponents(baseSpace, colors, NULL, 3);
-    
-    CGContextSaveGState(context);
-    CGContextAddEllipseInRect(context, CGRectMake(centerPoint.x-15, rect.size.height-42.5f, 25, 25));
-    CGContextClip(context);
-    CGContextDrawLinearGradient (context, gradient, CGPointMake(0, 0), CGPointMake(0,rect.size.height), 0);
-    
-    CGGradientRelease(gradient);
-    CGColorSpaceRelease(baseSpace);
-    
-    CGContextRestoreGState(context);
-    
-    //Draw White Bottom Shadow
-    
-    CGContextSetStrokeColorWithColor(context, [UIColor colorWithRed:1 green:1
-                                                               blue:1 alpha:.4f].CGColor);
-    CGContextSetLineWidth(context, .8f);
-    CGContextAddArc(context,centerPoint.x-2.5,rect.size.height-30.5f,12.5f,24*M_PI/180,156*M_PI/180,0);
-    CGContextDrawPath(context,kCGPathStroke);
-    
-    //Draw Black Top Shadow
-    
-    CGContextSetStrokeColorWithColor(context, [UIColor colorWithRed:0 green:0
-                                                               blue:0 alpha:.2f].CGColor);
-    
-    CGContextAddArc(context,centerPoint.x-2.5,rect.size.height-30.5f,12.f,(i==titlesArr.count-1?28:-20)*M_PI/180,(i==0?-208:-160)*M_PI/180,1);
-    CGContextSetLineWidth(context, 1.f);
-    CGContextDrawPath(context,kCGPathStroke);
-    
+    // Draw Selection Circles Shadow
+    CGContextSetFillColorWithColor(context, shadowColor);
+    CGContextFillEllipseInRect(context, CGRectMake(centerPoint.x - 12.5f, 8, 20, 20));
+  }
+  
+  // Fill Main Path
+  CGContextSetFillColorWithColor(context, trackColor);
+  CGContextFillRect(context, CGRectMake(LEFT_OFFSET, 17, rect.size.width - RIGHT_OFFSET - LEFT_OFFSET, 10));
+  CGContextSaveGState(context);
+
+  //
+  for (int i = 0; i < titlesArr.count; i++) {
+    //
+    centerPoint = [self getCenterPointForIndex:i];
+
+    // Draw Selection Circles
+    CGContextSetFillColorWithColor(context, trackColor);
+    CGContextFillEllipseInRect(context, CGRectMake(centerPoint.x - 12.5f, 10, 20, 20));
+    //
+    CGContextSetFillColorWithColor(context, shadowColor);
+    CGContextFillEllipseInRect(context, CGRectMake(centerPoint.x - 7.5f, 16, 10, 10));
+    //
+    CGContextSetFillColorWithColor(context, [UIColor whiteColor].CGColor);
+    CGContextFillEllipseInRect(context, CGRectMake(centerPoint.x - 7.5f, 14, 10, 10));
   }
 }
 
@@ -277,14 +233,14 @@
   int i;
   UILabel *lbl;
   for (i = 0; i < titlesArr.count; i++) {
-    lbl = (UILabel *)[self viewWithTag:i+50];
+    lbl = (UILabel *)[self viewWithTag:i + 50];
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationBeginsFromCurrentState:YES];
     if (i == index) {
-      [lbl setCenter:CGPointMake(lbl.center.x, self.frame.size.height-55-TITLE_SELECTED_DISTANCE)];
+      [lbl setCenter:CGPointMake(lbl.center.x, 49 + TITLE_SELECTED_DISTANCE)];
       [lbl setAlpha:1];
     } else {
-      [lbl setCenter:CGPointMake(lbl.center.x, self.frame.size.height-55)];
+      [lbl setCenter:CGPointMake(lbl.center.x, 49)];
       [lbl setAlpha:TITLE_FADE_ALPHA];
     }
     [UIView commitAnimations];
@@ -293,7 +249,7 @@
 
 - (void)animateHandlerToIndex:(int)index {
   CGPoint toPoint = [self getCenterPointForIndex:index];
-  toPoint = CGPointMake(toPoint.x-(handler.frame.size.width/2.f), handler.frame.origin.y);
+  toPoint = CGPointMake(toPoint.x - (handler.frame.size.width / 2.f), handler.frame.origin.y);
   toPoint = [self fixFinalPoint:toPoint];
   
   [UIView beginAnimations:nil context:nil];
@@ -302,7 +258,7 @@
 }
 
 - (int)getSelectedTitleInPoint:(CGPoint)pnt {
-  return round((pnt.x-LEFT_OFFSET)/oneSlotSize);
+  return round((pnt.x - LEFT_OFFSET) / oneSlotSize);
 }
 
 @end

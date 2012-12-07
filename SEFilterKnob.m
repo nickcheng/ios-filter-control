@@ -35,56 +35,48 @@
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
   //
-  CGColorRef shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.4f].CGColor;
   CGContextRef context = UIGraphicsGetCurrentContext();
   
-  //Draw Main Cirlce
+  //
+  CGColorRef handlerColor = [UIColor colorWithRed:73/255.f green:198/255.f blue:215/255.f alpha:1].CGColor;
+  CGColorRef outerShadowColor = [UIColor colorWithRed:13/255.f green:166/255.f blue:187/255.f alpha:1].CGColor;
+  CGColorRef innerShadowColor = [UIColor colorWithRed:198/255.f green:231/255.f blue:235/255.f alpha:1].CGColor;
   
+  // Draw Main Cirlce
   CGContextSaveGState(context);
-  
-  CGContextSetShadowWithColor(context, CGSizeMake(0, 7), 10.f, shadowColor);
-  
-  CGContextSetStrokeColorWithColor(context, self.handlerColor.CGColor);
-  CGContextSetLineWidth(context, 11);
-  CGContextStrokeEllipseInRect(context, CGRectMake(6.5f, 6, 22, 22));
-  
+  CGContextSetStrokeColorWithColor(context, outerShadowColor);
+  CGContextSetLineWidth(context, 7);
+  CGContextStrokeEllipseInRect(context, CGRectMake(3.5f, 5.5f, 29, 29));
   CGContextRestoreGState(context);
-  
-  //Draw Outer Outline
-  
+  //
   CGContextSaveGState(context);
-  
-  CGContextSetStrokeColorWithColor(context, [UIColor colorWithWhite:.5 alpha:.6f].CGColor);
-  CGContextSetLineWidth(context, 1);
-  CGContextStrokeEllipseInRect(context, CGRectMake(rect.origin.x+1.5f, rect.origin.y+1.2f, 32, 32.f));
-  
+  CGContextSetStrokeColorWithColor(context, innerShadowColor);
+  CGContextSetLineWidth(context, 6);
+  CGContextStrokeEllipseInRect(context, CGRectMake(10, 10, 16, 16));
   CGContextRestoreGState(context);
-  
-  //Draw Inner Outline
-  
+  //
   CGContextSaveGState(context);
-  
-  //    CGContextSetShadowWithColor(context, CGSizeMake(0, -4), 10.f, shadowColor);
-  CGContextSetStrokeColorWithColor(context, [UIColor colorWithWhite:.5 alpha:.6f].CGColor);
-  CGContextSetLineWidth(context, 1);
-  CGContextStrokeEllipseInRect(context, CGRectMake(rect.origin.x+12.5f, rect.origin.y+12, 10, 10));
-  
+  CGContextSetStrokeColorWithColor(context, [UIColor colorWithRed:255/255.f green:255/255.f blue:255/255.f alpha:1].CGColor);
+  CGContextSetLineWidth(context, 6);
+  CGContextStrokeEllipseInRect(context, CGRectMake(10, 12, 16, 16));
   CGContextRestoreGState(context);
-  
-  
-  CGFloat colors[8] = { 0,0, 0, 0,
-    0, 0, 0, .6};
-  CGColorSpaceRef baseSpace = CGColorSpaceCreateDeviceRGB();
-  CGGradientRef gradient = CGGradientCreateWithColorComponents(baseSpace, colors, NULL, 2);
-  
+  //
   CGContextSaveGState(context);
-  CGContextAddEllipseInRect(context, CGRectMake(rect.origin.x+1.5f, rect.origin.y+1, 32, 32));
-  CGContextClip(context);
-  CGContextDrawLinearGradient (context, gradient, CGPointMake(0, 0), CGPointMake(0,rect.size.height), 0);
-  
-  CGGradientRelease(gradient);
-  CGColorSpaceRelease(baseSpace);
-  
+  CGContextSetStrokeColorWithColor(context, handlerColor);
+  CGContextSetLineWidth(context, 7);
+  CGContextStrokeEllipseInRect(context, CGRectMake(3.5f, 3.5f, 29, 29));
+  CGContextRestoreGState(context);
+  //
+  CGContextSaveGState(context);
+  CGContextSetStrokeColorWithColor(context, innerShadowColor);
+  CGContextSetLineWidth(context, 5);
+  CGContextStrokeEllipseInRect(context, CGRectMake(15.5f, 17.5f, 5, 5));
+  CGContextRestoreGState(context);
+  //
+  CGContextSaveGState(context);
+  CGContextSetStrokeColorWithColor(context, handlerColor);
+  CGContextSetLineWidth(context, 5);
+  CGContextStrokeEllipseInRect(context, CGRectMake(15.5f, 15.5f, 5, 5));
   CGContextRestoreGState(context);
 }
 
