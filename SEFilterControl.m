@@ -185,18 +185,11 @@
   CGContextRef context = UIGraphicsGetCurrentContext();
   
   UIColor *__autoreleasing trackColor = [UIColor colorWithRed:73/255.f green:198/255.f blue:215/255.f alpha:1];
-  UIColor *__autoreleasing shadowColor = [UIColor colorWithRed:13/255.f green:166/255.f blue:187/255.f alpha:1];
   CGColorRef trackColorRef = trackColor.CGColor;
-  CGColorRef shadowColorRef = shadowColor.CGColor;
   
-  // Draw Top Shadow
-  CGContextSaveGState(context);
-  CGContextSetStrokeColorWithColor(context, shadowColorRef);
-  CGContextSetLineWidth(context, 2.f);
-  CGContextBeginPath(context);
-  CGContextMoveToPoint(context, LEFT_OFFSET, 16);
-  CGContextAddLineToPoint(context, rect.size.width - RIGHT_OFFSET, 16);
-  CGContextStrokePath(context);
+  // Fill Main Path
+  CGContextSetFillColorWithColor(context, trackColorRef);
+  CGContextFillRect(context, CGRectMake(LEFT_OFFSET, 15, rect.size.width - RIGHT_OFFSET - LEFT_OFFSET, 10));
   CGContextSaveGState(context);
 
   //
@@ -206,27 +199,10 @@
     centerPoint = [self getCenterPointForIndex:i];
     
     // Draw Selection Circles Shadow
-    CGContextSetFillColorWithColor(context, shadowColorRef);
-    CGContextFillEllipseInRect(context, CGRectMake(centerPoint.x - 12.5f, 8, 20, 20));
-  }
-  
-  // Fill Main Path
-  CGContextSetFillColorWithColor(context, trackColorRef);
-  CGContextFillRect(context, CGRectMake(LEFT_OFFSET, 17, rect.size.width - RIGHT_OFFSET - LEFT_OFFSET, 10));
-  CGContextSaveGState(context);
-
-  //
-  for (int i = 0; i < titlesArr.count; i++) {
-    //
-    centerPoint = [self getCenterPointForIndex:i];
-
-    // Draw Selection Circles
     CGContextSetFillColorWithColor(context, trackColorRef);
-    CGContextFillEllipseInRect(context, CGRectMake(centerPoint.x - 12.5f, 10, 20, 20));
-    //
-    CGContextSetFillColorWithColor(context, shadowColorRef);
-    CGContextFillEllipseInRect(context, CGRectMake(centerPoint.x - 7.5f, 16, 10, 10));
-    //
+    CGContextFillEllipseInRect(context, CGRectMake(centerPoint.x - 12.5f, 9, 20, 20));
+    
+    // Draw white circles
     CGContextSetFillColorWithColor(context, [UIColor whiteColor].CGColor);
     CGContextFillEllipseInRect(context, CGRectMake(centerPoint.x - 7.5f, 14, 10, 10));
   }
