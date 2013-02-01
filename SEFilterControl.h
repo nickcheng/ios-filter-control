@@ -18,6 +18,7 @@
 @interface SEFilterControl : UIControl
 
 - (id)initWithFrame:(CGRect)frame andTitles:(NSArray *)titles;
+- (id)initWithFrame:(CGRect)frame andTitles:(NSArray *)titles andLabels:(NSArray *) labels;
 - (void)setSelectedIndex:(int)index;
 - (void)setTitlesColor:(UIColor *)color;
 - (void)setTitlesFont:(UIFont *)font;
