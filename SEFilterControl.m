@@ -90,7 +90,7 @@
   return self;
 }
 
--(id)initWithFrame:(CGRect)frame Titles:(NSArray *)titles Labels:(NSArray *)labels {
+- (id)initWithFrame:(CGRect)frame andTitles:(NSArray *)titles andLabels:(NSArray *)labels {
   if (self = [super initWithFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, 70)]) {
     [self setBackgroundColor:[UIColor clearColor]];
     titlesArr = [[NSArray alloc] initWithArray:titles];
